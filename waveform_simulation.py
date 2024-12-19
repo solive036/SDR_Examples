@@ -1,3 +1,6 @@
+"""
+Simulate a transmitted waveform, you can edit the code inside the run().
+"""
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
 import numpy as np
