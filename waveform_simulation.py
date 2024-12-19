@@ -38,7 +38,7 @@ class MainWindow(QMainWindow):
         main_layout = QHBoxLayout()
 
         #setup plot
-        time_plot = pg.PlotWidget()
+        time_plot = pg.PlotWidget(labels={'bottom':'Time', 'left':'Amplitude'})
         time_plot.setMouseEnabled(x=False, y=False)
         time_plot.setYRange(-3, 3)
         self.c1 = time_plot.plot()

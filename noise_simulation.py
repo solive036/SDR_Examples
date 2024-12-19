@@ -63,12 +63,12 @@ class MainWindow(QMainWindow):
         noise_value.valueChanged.connect(lambda: self.worker.update_noise(noise_value.value()))
 
         # Setup the time plot
-        plot = pg.PlotWidget(labels={'left': 'Amplitude', 'bottom': 'Time'})
+        plot = pg.PlotWidget(labels={'top':'Signal in Time','left': 'Amplitude', 'bottom': 'Time'})
         plot.setYRange(-1.5, 1.5)
         self.c1 = plot.plot()  # Initialize plot with an empty data set
 
         #setup the PSD plot
-        psd_plot = pg.PlotWidget(labels={'left':'Amplitude', 'bottom':'Frequency'})
+        psd_plot = pg.PlotWidget(labels={'top':'Power Spectral Density','left':'Amplitude', 'bottom':'Frequency'})
         psd_plot.setYRange(-40, 30)
         self.c2 = psd_plot.plot()
 
