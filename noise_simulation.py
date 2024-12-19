@@ -1,4 +1,7 @@
-from PyQt6.QtWidgets import QVBoxLayout, QMainWindow, QWidget, QApplication, QLabel
+"""
+Simulate a noisy signal and what effects this has on the received signal
+"""
+from PyQt6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QMainWindow, QWidget, QApplication, QDoubleSpinBox
 from PyQt6.QtCore import QObject, pyqtSignal, QThread, QTimer
 import numpy as np
 import pyqtgraph as pg
@@ -20,6 +23,9 @@ class SDR_Worker(QObject):
     plot_update = pyqtSignal(np.ndarray)
     psd_update = pyqtSignal(np.ndarray, np.ndarray)
     end_of_run = pyqtSignal()
+
+    def update_noise(self, noise_sigma):
+        self.noise_sigma = noise_sigma
 
     def run(self):
         while True:
@@ -43,8 +49,18 @@ class MainWindow(QMainWindow):
         self.worker.moveToThread(self.sdr_thread)
 
         ### GUI Setup
-        self.setWindowTitle('SDR RX Simulator')
+        self.setWindowTitle('Noise Simulation')
         main_layout = QVBoxLayout()  # Use a vertical layout for the main window
+        options_layout = QHBoxLayout()
+
+        #setup the slider for noise level
+        label = QLabel('Noise Level: ')
+        noise_value = QDoubleSpinBox()
+        noise_value.setRange(0, 5)
+        noise_value.setSingleStep(0.1)
+        options_layout.addWidget(label)
+        options_layout.addWidget(noise_value)
+        noise_value.valueChanged.connect(lambda: self.worker.update_noise(noise_value.value()))
 
         # Setup the time plot
         plot = pg.PlotWidget(labels={'left': 'Amplitude', 'bottom': 'Time'})
@@ -57,6 +73,7 @@ class MainWindow(QMainWindow):
         self.c2 = psd_plot.plot()
 
         #add plot widgets to main layout
+        main_layout.addLayout(options_layout)
         main_layout.addWidget(plot)  
         main_layout.addWidget(psd_plot)
         central_widget = QWidget(self)
