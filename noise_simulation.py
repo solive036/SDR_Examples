@@ -18,7 +18,7 @@ class SDR_Worker(QObject):
         self.sample_rate = 50 #samples per second 
         self.time_vector = np.arange(0, self.buffer_size)/self.sample_rate
         self.freq_vector = np.fft.fftshift(np.fft.fftfreq(self.buffer_size, 1/self.sample_rate))
-        self.noise_sigma = 0.3 #changes the amount of noise, std deviation of Gaussian noise
+        self.noise_sigma = 0.0 #changes the amount of noise, std deviation of Gaussian noise
 
     plot_update = pyqtSignal(np.ndarray)
     psd_update = pyqtSignal(np.ndarray, np.ndarray)
